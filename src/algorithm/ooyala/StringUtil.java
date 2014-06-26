@@ -9,15 +9,15 @@ public class StringUtil {
 		} else {
 			builder = new StringBuilder("$");
 		}
-		String[] numbers = value.split("\\.");
+		int pointIndex = value.indexOf(".");
 		String integer = null;
 		StringBuilder decimal = new StringBuilder();
-		if (numbers.length < 2) {
+		if (pointIndex == -1) {
 			integer = value;
 			decimal.append("00");
 		} else {
-			integer = Integer.toString(Math.abs(Integer.parseInt(numbers[0])));
-			decimal.append(numbers[1]);
+			integer = Integer.toString(Math.abs(Integer.parseInt(value.substring(0, pointIndex))));
+			decimal.append(value.substring(pointIndex + 1));
 			if (decimal.length() > 2) {
 				decimal = new StringBuilder(decimal.substring(0,2));
 			} else {
