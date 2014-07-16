@@ -2,31 +2,33 @@ package algorithm.ooyala;
 
 public class StringUtil {
 	
-	public static String format(String value) {
-		StringBuilder builder = null;
-		if (value.contains("-")) {
-			builder = new StringBuilder("-$");
-		} else {
-			builder = new StringBuilder("$");
+	static boolean hasDecimals(int pointIndex) {
+		if (pointIndex == -1) {
+			return false;
 		}
+		return true;
+	}
+	
+	private static String abs(String value) {
+		return Integer.toString(Math.abs(Integer.parseInt(value)));
+	}
+	
+	private static void formatPrefix(StringBuilder builder, String value) {
+		if (value.contains("-")) {
+			builder.append("-$");
+		} else {
+			builder.append("$");
+		}
+	}
+	
+	private static String formatInteger(StringBuilder builder, String value) {
 		int pointIndex = value.indexOf(".");
 		String integer = null;
-		StringBuilder decimal = new StringBuilder();
-		if (pointIndex == -1) {
-			integer = value;
-			decimal.append("00");
+		if (!StringUtil.hasDecimals(pointIndex)) {
+			integer = StringUtil.abs(value);
 		} else {
-			integer = Integer.toString(Math.abs(Integer.parseInt(value.substring(0, pointIndex))));
-			decimal.append(value.substring(pointIndex + 1));
-			if (decimal.length() > 2) {
-				decimal = new StringBuilder(decimal.substring(0,2));
-			} else {
-				while(decimal.length() < 2) {
-					decimal.append("0");
-				}
-			}
-		}
-		
+			integer = StringUtil.abs(value.substring(0, pointIndex));
+		}		
 		StringBuilder newInteger = new StringBuilder();
 		int countThousands = 0;
 		for (int i = integer.length() - 1; i >=0; i--) {
@@ -37,7 +39,33 @@ public class StringUtil {
 				newInteger.append(",");
 			}
 		}
-		builder.append(newInteger.reverse()).append(".").append(decimal);
-		return builder.toString();
+		return builder.append(newInteger.reverse()).toString();
+	}
+	
+	private static void formatDecimal(StringBuilder builder, String value) {
+		int pointIndex = value.indexOf(".");
+		if (!StringUtil.hasDecimals(pointIndex)) {
+			builder.append("00");
+		} else {
+			String decimal = value.substring(pointIndex + 1);
+			if (decimal.length() > 2) {
+				builder.append(decimal.substring(0,2));
+			} else {
+				StringBuilder newDecimal = new StringBuilder(decimal);
+				while(newDecimal.length() < 2) {
+					newDecimal.append("0");
+				}
+				builder.append(newDecimal);
+			}
+		}
+	}
+	
+	public static String format(String value) {
+		StringBuilder result = new StringBuilder();
+		StringUtil.formatPrefix(result, value);
+		StringUtil.formatInteger(result, value);
+		result.append(".");
+		StringUtil.formatDecimal(result, value);
+		return result.toString();
 	}
 }
