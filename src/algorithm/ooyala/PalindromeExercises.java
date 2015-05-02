@@ -2,44 +2,41 @@ package algorithm.ooyala;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class PalindromeExercises {
 	
 	public static boolean isPalindrome(String toEvaluate) {
-		StringBuilder result = new StringBuilder(toEvaluate);
-		result.reverse();
-		return toEvaluate.equals(result.toString());
+		return toEvaluate.equals((new StringBuffer(toEvaluate)).reverse().toString());
 	}
 	
 	public static String rearrange(String word) {
-		Map<Character, Integer> map = new HashMap<Character, Integer>();		
-		for (int i = 0; i < word.length(); i++) {
-			Character character = word.charAt(i);
-			Integer count = 1;
-			if (map.containsKey(character)) {
-				count = map.get(character);
+		Map<Character, Integer> mapOfOccurrences = new HashMap<Character, Integer>();
+		char[] characters = word.toCharArray();
+		for (char character : characters) {
+			int count = 1;
+			if (mapOfOccurrences.containsKey(character)) {
+				count = mapOfOccurrences.get(character);
 				count++;
 			}
-			map.put(character, count);
-		}
-		Set<Character> keySet = map.keySet();
-		StringBuilder  str1   = new StringBuilder();
-		StringBuilder  str2   = new StringBuilder();
-		StringBuilder  middle = new StringBuilder();
-		for (Character character : keySet) {
-			Integer count = map.get(character);
-			for(int i = 0; i < count/2; i++) {
-				str1.append(character);
-				str2.append(character);					
+			mapOfOccurrences.put(character, count);
+		}		
+		StringBuilder 
+		prefix  = new StringBuilder(), 
+		infix   = new StringBuilder(), 
+		postfix = new StringBuilder();
+		for (char character : mapOfOccurrences.keySet()) {
+			int numOfOccurrences = mapOfOccurrences.get(character);
+			for (int i = 0; i < numOfOccurrences/2; i++) {
+				prefix.append(character);
+				postfix.append(character);
 			}
-			if (count%2 == 1) {
-				middle.append(character);
+			if (numOfOccurrences%2 == 1) {
+				infix.append(character);
 			}
 		}
-		if (middle.length() > 1) {
+		if (infix.length() > 1) {
 			return "-1";
 		}
-		return str1.append(middle).append(str2.reverse()).toString();
+		return prefix.append(infix).append(postfix.reverse()).toString();
 	}
 }
