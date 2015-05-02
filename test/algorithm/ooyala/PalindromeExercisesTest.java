@@ -1,6 +1,8 @@
 package algorithm.ooyala;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import algorithm.ooyala.PalindromeExercises;
 
 public class PalindromeExercisesTest {
 
@@ -28,8 +28,8 @@ public class PalindromeExercisesTest {
 	
 	@Test
 	public void testIsPalindrome() {
-		String toEvaluateValue = "civic";
-		boolean isPalindrome = PalindromeExercises.isPalindrome(toEvaluateValue);
+		String word = "amoma";
+		boolean isPalindrome = PalindromeExercises.isPalindrome(word);
 		assertTrue(isPalindrome);
 	}
 	
@@ -45,6 +45,41 @@ public class PalindromeExercisesTest {
 		}
 		System.out.println();
 		assertArrayEquals(expecteValues, actualValues.toArray(new String[actualValues.size()]));		
+	}
+	
+	@Test
+	public void testRearrange01() {
+		String toEvaluate = "ivcci";
+		String rearranged = PalindromeExercises.rearrange(toEvaluate);
+		assertEquals("civic", rearranged);
+	}
+	
+	@Test
+	public void testRearrange02() {
+		String word = "oyotta";
+		String rearranged = PalindromeExercises.rearrange(word);
+		assertEquals("-1",rearranged);
+	}
+	
+	@Test
+	public void testRearrange03() {
+		String word = "cecarar";
+		String rearranged = PalindromeExercises.rearrange(word);
+		assertEquals("arcecra", rearranged);
+	}
+
+	@Test
+	public void testRearrange04() {
+		String word = "bbb";
+		String rearranged = PalindromeExercises.rearrange(word);
+		assertEquals("bbb", rearranged);
+	}
+	
+	@Test
+	public void testRearrange05() {
+		String word = "babbb";
+		String rearranged = PalindromeExercises.rearrange(word);
+		assertEquals("bbabb", rearranged);
 	}
 
 }
