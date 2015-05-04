@@ -5,8 +5,9 @@ import java.util.Map;
 
 public class PalindromeExercises {
 	
-	public static boolean isPalindrome(String toEvaluate) {
-		return toEvaluate.equals((new StringBuffer(toEvaluate)).reverse().toString());
+	public static boolean isPalindrome(String word) {
+		String reverveWord = (new StringBuilder(word)).reverse().toString();
+		return word.equals(reverveWord);
 	}
 	
 	public static String rearrange(String word) {
