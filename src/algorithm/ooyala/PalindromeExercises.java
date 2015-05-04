@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PalindromeExercises {
+	private static final int DIVISOR = 2;
 	
 	public static boolean isPalindrome(String word) {
-		String reverveWord = (new StringBuilder(word)).reverse().toString();
-		return word.equals(reverveWord);
+		String reverseWord = (new StringBuilder(word)).reverse().toString();
+		return word.equals(reverseWord);
 	}
 	
 	public static String rearrange(String word) {
@@ -18,11 +19,13 @@ public class PalindromeExercises {
 		postfix = new StringBuilder();
 		for (char character : mapOfOccurrences.keySet()) {
 			int numOfOccurrences = mapOfOccurrences.get(character);
-			for (int i = 0; i < numOfOccurrences/2; i++) {
+			int quotient  = getQuotient(numOfOccurrences,  DIVISOR);
+			int remainder = getRemainder(numOfOccurrences, DIVISOR);
+			for (int i = 0; i < quotient; i++) {
 				prefix.append(character);
 				postfix.append(character);
 			}
-			if (isOdd(numOfOccurrences)) {
+			if (isPeerLess(remainder)) {
 				infix.append(character);
 			}
 		}
@@ -47,7 +50,15 @@ public class PalindromeExercises {
 		return mapOfOccurrences;
 	}
 	
-	private static boolean isOdd(int number) {
-		return number%2 != 0;
+	private static boolean isPeerLess(int number) {
+		return number != 0;
+	}
+	
+	private static int getQuotient(int divident, int divisor) {
+		return divident / divisor;
+	}
+	
+	private static int getRemainder(int divident, int divisor) {
+		return divident % divisor;
 	}
 }
